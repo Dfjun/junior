@@ -13,7 +13,7 @@ const GABARITOS = {
 };
 
 let respostasUsuario = {}; // Variável global para manter as respostas
-let questoesAtuais = [];   // Variável global para a lista completa da prova atual
+let questoesAtuais = [];   // Variável global para a lista completa da prova atual (incluindo introduções)
 let anoAtual = '';         // Variável global para o ano da prova atual
 
 // ==================== FUNÇÕES PRINCIPAIS ====================
@@ -28,7 +28,7 @@ function mostrarPagina(e, pagina) { // 'e' agora é um parâmetro
 
     // CORRIGIDO E ROBUSTO: Usa o parâmetro 'e' para adicionar a classe 'active'
     // Garante que 'e' e 'e.target' existam e que 'e.target.classList' seja um objeto válido.
-    if(e && e.target && typeof e.target.classList !== 'undefined') { 
+    if(e && e.target && typeof e.target.classList !== 'undefined') {
         e.target.classList.add('active');
     } else if (pagina === 'home') { // Caso seja a chamada inicial sem evento (DOMContentLoaded)
         // Busca o botão 'home' pelo seu onclick para ativá-lo
@@ -48,18 +48,28 @@ function mostrarPagina(e, pagina) { // 'e' agora é um parâmetro
     }
     else {
         let questoesParaCarregar;
-        if(pagina === 'prova2023') {
-            questoesParaCarregar = QUESTOES_2023;
-            anoAtual = '2023';
-        } else if(pagina === 'prova2024') {
-            questoesParaCarregar = QUESTOES_2024;
-            anoAtual = '2024';
-        } else if(pagina === 'prova2025') {
-            questoesParaCarregar = QUESTOES_2025;
-            anoAtual = '2025';
-        } else if(pagina === 'desafio') {
-            questoesParaCarregar = QUESTOES_DESAFIO;
-            anoAtual = 'DESAFIO';
+        // Certifique-se de que as variáveis QUESTOES_2023, QUESTOES_2024, etc., estejam definidas globalmente
+        // ou importadas corretamente. Para este exemplo, assumimos que estão disponíveis.
+        switch(pagina) {
+            case 'prova2023':
+                questoesParaCarregar = typeof QUESTOES_2023 !== 'undefined' ? QUESTOES_2023 : [];
+                anoAtual = '2023';
+                break;
+            case 'prova2024':
+                questoesParaCarregar = typeof QUESTOES_2024 !== 'undefined' ? QUESTOES_2024 : [];
+                anoAtual = '2024';
+                break;
+            case 'prova2025':
+                questoesParaCarregar = typeof QUESTOES_2025 !== 'undefined' ? QUESTOES_2025 : [];
+                anoAtual = '2025';
+                break;
+            case 'desafio':
+                questoesParaCarregar = typeof QUESTOES_DESAFIO !== 'undefined' ? QUESTOES_DESAFIO : [];
+                anoAtual = 'DESAFIO';
+                break;
+            default:
+                questoesParaCarregar = [];
+                anoAtual = '';
         }
         questoesAtuais = questoesParaCarregar; // Armazena as questões originais na variável global
         renderProva(app, questoesAtuais, anoAtual); // Renderiza a prova completa inicialmente
@@ -134,6 +144,23 @@ function renderProva(app, questoesParaRenderizar, ano) {
 }
 
 /**
+ * Cria o HTML para um bloco de introdução (texto/imagem que precede questões).
+ * @param {object} introducao - Objeto de introdução.
+ * @returns {string} HTML do bloco de introdução.
+ */
+function criarIntroducaoHTML(introducao) {
+    let html = `
+        <div class="introducao-bloco">
+            ${introducao.titulo ? `<h3>${introducao.titulo}</h3>` : ''}
+            ${introducao.figuraDescricao ? `<div class="figura-descricao">${introducao.figuraDescricao}</div>` : ''}
+            ${introducao.imagem ? `<div class="imagem-questao"><img src="imagens/${introducao.imagem}" alt="Figura introdutória"></div>` : ''}
+            ${introducao.texto ? `<p class="texto-base">${introducao.texto}</p>` : ''}
+        </div>
+    `;
+    return html;
+}
+
+/**
  * Cria o HTML para uma única questão.
  * @param {object} questao - Objeto da questão.
  * @param {string} ano - Ano da prova ou 'DESAFIO'.
@@ -150,10 +177,17 @@ function criarQuestaoHTML(questao, ano) {
             </div>
             ${questao.texto ? `<p class="texto-base">${questao.texto}</p>` : ''}
             ${questao.figuraDescricao ? `<div class="figura-descricao">${questao.figuraDescricao}</div>` : ''}
-           
-	    ${questao.imagem ? `<div class="imagem-questao"><img src="imagens/${questao.imagem}" alt="Figura da questão ${questao.numero}"></div>` : ''}
-	    
-	    <p class="pergunta">${questao.pergunta}</p>
+
+            ${
+                // Lógica para renderizar uma ou múltiplas imagens
+                questao.imagens && Array.isArray(questao.imagens) && questao.imagens.length > 0
+                ? `<div class="imagens-questao-container">` +
+                  questao.imagens.map(img => `<div class="imagem-questao"><img src="imagens/${img}" alt="Figura da questão ${questao.numero}"></div>`).join('') +
+                  `</div>`
+                : (questao.imagem ? `<div class="imagem-questao"><img src="imagens/${questao.imagem}" alt="Figura da questão ${questao.numero}"></div>` : '')
+            }
+
+            <p class="pergunta">${questao.pergunta}</p>
             <div class="alternativas-container">
     `;
 
@@ -178,8 +212,8 @@ function criarQuestaoHTML(questao, ano) {
 }
 
 /**
- * Renderiza uma lista de questões em #questoes-renderizadas e restaura as respostas.
- * @param {Array<object>} lista - Lista de questões a serem renderizadas.
+ * Renderiza uma lista de itens (questões ou introduções) em #questoes-renderizadas e restaura as respostas.
+ * @param {Array<object>} lista - Lista de questões ou introduções a serem renderizadas.
  * @param {string} ano - Ano da prova ou 'DESAFIO'.
  */
 function renderizarLista(lista, ano) {
@@ -189,15 +223,21 @@ function renderizarLista(lista, ano) {
     if (lista.length === 0) {
         html = `<p class="no-questions-message">Nenhuma questão encontrada para os filtros selecionados.</p>`;
     } else {
-        lista.forEach(q => {
-            html += criarQuestaoHTML(q, ano);
+        lista.forEach(item => {
+            if (item.tipo === 'introducao') {
+                html += criarIntroducaoHTML(item);
+            } else {
+                html += criarQuestaoHTML(item, ano);
+            }
         });
     }
 
     container.innerHTML = html;
 
     // ---- RESTAURA AS RESPOSTAS JÁ MARCADAS E ESTADOS DE VERIFICAÇÃO --------------------
-    lista.forEach(q => {
+    // Filtra apenas as questões reais para restaurar respostas
+    const questoesReais = lista.filter(item => item.numero);
+    questoesReais.forEach(q => {
         const id = `q${ano}_${q.numero}`;
         const respostaSalva = respostasUsuario[id];
         if (respostaSalva) {
@@ -207,17 +247,19 @@ function renderizarLista(lista, ano) {
             }
 
             // Se a questão já foi verificada, mostra o resultado e desabilita o botão
-            const numeroQuestao = parseInt(id.split('_')[1]);
+            const numeroQuestao = q.numero; // Já é o número da questão
             const questoesDoAnoOriginal = ano === '2023' ? QUESTOES_2023 :
                                           ano === '2024' ? QUESTOES_2024 :
                                           ano === '2025' ? QUESTOES_2025 : QUESTOES_DESAFIO;
-            const indexQuestaoOriginal = questoesDoAnoOriginal.findIndex(origQ => origQ.numero === numeroQuestao);
+            // Encontra o índice da questão REAL no array original (ignorando introduções)
+            const questoesNumeradasOriginal = questoesDoAnoOriginal.filter(item => item.numero);
+            const indexQuestaoOriginal = questoesNumeradasOriginal.findIndex(origQ => origQ.numero === numeroQuestao);
             const respostaCorreta = GABARITOS[ano][indexQuestaoOriginal];
 
             const resultadoElement = document.getElementById(`r_${id}`);
             const verificarButton = document.getElementById(id).querySelector('.btn-verificar');
 
-            if (resultadoElement && verificarButton && (alternativaElement && alternativaElement.classList.contains('correta') || alternativaElement && alternativaElement.classList.contains('incorreta'))) {
+            if (resultadoElement && verificarButton && (alternativaElement && (alternativaElement.classList.contains('correta') || alternativaElement.classList.contains('incorreta')))) {
                 // Re-aplicar classes de correção se já estiverem no estado final
                 document.querySelectorAll(`#${id} .alternativa`).forEach(alt => {
                     alt.classList.remove('selecionada', 'correta', 'incorreta');
@@ -241,19 +283,36 @@ function renderizarLista(lista, ano) {
     });
 }
 
-
 /**
  * Aplica filtros de matéria às questões e re-renderiza a lista.
  */
 function aplicarFiltros() {
     const filtroMateria = document.getElementById('filtro-materia').value;
-    let questoesFiltradas = questoesAtuais; // Começa com todas as questões do ano/desafio
+    let itensFiltrados = [];
 
-    if (filtroMateria !== 'todas') {
-        questoesFiltradas = questoesAtuais.filter(q => q.materia === filtroMateria);
+    if (filtroMateria === 'todas') {
+        itensFiltrados = questoesAtuais; // Se "todas", mostra tudo
+    } else {
+        // Filtra as questões que correspondem à matéria
+        const questoesFiltradasPorMateria = questoesAtuais.filter(item => item.numero && item.materia === filtroMateria);
+
+        // Adiciona os blocos de introdução relevantes
+        questoesAtuais.forEach(item => {
+            if (item.tipo === 'introducao') {
+                // Verifica se alguma das questões que este bloco introduz está na lista filtrada
+                const temQuestaoRelevante = item.paraQuestoes.some(qNum =>
+                    questoesFiltradasPorMateria.some(q => q.numero === qNum)
+                );
+                if (temQuestaoRelevante) {
+                    itensFiltrados.push(item);
+                }
+            } else if (item.materia === filtroMateria) {
+                itensFiltrados.push(item);
+            }
+        });
     }
 
-    renderizarLista(questoesFiltradas, anoAtual);
+    renderizarLista(itensFiltrados, anoAtual);
 }
 
 /**
@@ -305,7 +364,18 @@ function verificarQuestao(idQuestao, ano) {
     const questoesDoAnoOriginal = ano === '2023' ? QUESTOES_2023 :
                                   ano === '2024' ? QUESTOES_2024 :
                                   ano === '2025' ? QUESTOES_2025 : QUESTOES_DESAFIO;
-    const indexQuestaoOriginal = questoesDoAnoOriginal.findIndex(q => q.numero === numero);
+    // Filtra apenas os objetos que são questões reais (têm número) para corresponder ao gabarito
+    const questoesNumeradasOriginal = questoesDoAnoOriginal.filter(item => item.numero);
+    const indexQuestaoOriginal = questoesNumeradasOriginal.findIndex(q => q.numero === numero);
+
+    if (indexQuestaoOriginal === -1) {
+        console.error(`Questão número ${numero} não encontrada no gabarito para o ano ${ano}.`);
+        resultadoEl.classList.add('errou');
+        resultadoEl.textContent = 'Erro ao verificar questão: Gabarito não encontrado.';
+        resultadoEl.classList.add('mostrar');
+        return;
+    }
+
     const respostaCorreta = GABARITOS[ano][indexQuestaoOriginal];
 
     // Marca as alternativas corretas/incorretas visualmente
@@ -343,10 +413,13 @@ function corrigirProva(ano) {
     let acertos = 0;
     const gabarito = GABARITOS[ano];
 
-    questoesOriginaisDoAno.forEach((questao, index) => {
+    // Filtra apenas os objetos que são questões reais (têm número) para corresponder ao gabarito
+    const questoesNumeradasOriginal = questoesOriginaisDoAno.filter(item => item.numero);
+
+    questoesNumeradasOriginal.forEach((questao, index) => {
         const id = `q${ano}_${questao.numero}`;
         const respostaUsuario = respostasUsuario[id];
-        const respostaCorreta = gabarito[index];
+        const respostaCorreta = gabarito[index]; // O índice do gabarito corresponde às questões numeradas
 
         // Contabiliza acertos para todas as questões, mesmo as não visíveis
         if (respostaUsuario && respostaUsuario === respostaCorreta) {
@@ -382,7 +455,7 @@ function corrigirProva(ano) {
         }
     });
 
-    const totalQuestoes = questoesOriginaisDoAno.length;
+    const totalQuestoes = questoesNumeradasOriginal.length; // Total de questões reais
     const nota = (acertos / totalQuestoes * 100).toFixed(1);
 
     document.getElementById('resultado-final').innerHTML = `
@@ -695,13 +768,7 @@ function renderEstrategia(app) {
                         <p>Vínculo entre o senhor feudal e o servo, que trabalhava na terra do senhor em troca de proteção e do direito de usar uma parte da terra para sua subsistência, pagando impostos e obrigações (talha, corveia, banalidades).</p>
                     </div>
                 </div>
-                <!-- Adicione mais cards de resumo aqui, seguindo o mesmo padrão -->
-            </div>
-        </section>
-
-        <section class="secao-estrategia">
-            <h3>🧠 Técnicas de Memorização</h3>
-            <p>Aprenda métodos eficazes para fixar o conteúdo e não esquecer na hora da prova. Experimente estas técnicas:</p>
+                <!-- Adicione mais cards de resumo aqui, seguindo o o conteúdo e não esquecer na hora da prova. Experimente estas técnicas:</p>
             <div class="tecnicas-grid">
                 <div class="tecnica-card">
                     <h4>Mapas Mentais</h4>
@@ -757,5 +824,5 @@ function toggleResumo(idResumo) {
 window.addEventListener('DOMContentLoaded', function() {
     // Chama mostrarPagina com 'null' para o evento e 'home' para a página
     // Isso garante que a página inicial seja carregada e o botão 'Home' ativado.
-    mostrarPagina(null, 'home'); 
+    mostrarPagina(null, 'home');
 });
