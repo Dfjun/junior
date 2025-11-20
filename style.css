@@ -583,6 +583,49 @@ footer {
     color: #42a5f5; /* Azul médio */
 }
 
+/* --- REGRA ESSENCIAL PARA TODAS AS IMAGENS --- */
+.imagem-questao img, 
+.imagens-questao-container img, 
+.introducao-bloco img {
+    /* Garante que a imagem nunca será maior que seu container */
+    max-width: 100%; 
+    /* Garante que a altura se ajustará proporcionalmente */
+    height: auto;   
+    /* Permite quebra de linha em URLs longas (embora não aplicável diretamente a <img src>) */
+    word-wrap: break-word; 
+    /* Estilo adicional para cantos arredondados, opcional */
+    border-radius: 5px; 
+    display: block; /* Remove espaços extras indesejados abaixo de imagens */
+    margin: 0 auto; /* Centraliza a imagem se ela for menor que o container */
+}
+
+/* --- AJUSTE PARA O CONTAINER DE IMAGENS MÚLTIPLAS (Questão 25/2024, por exemplo) --- */
+.imagens-questao-container {
+    display: flex; /* Permite colocar imagens lado a lado */
+    flex-wrap: wrap; /* ESSENCIAL: Quebra a linha se não houver espaço suficiente */
+    gap: 10px;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 20px 0;
+}
+
+.imagens-questao-container .imagem-questao {
+    /* Cada imagem dentro do container pode ocupar até 100% (para quebrar a linha) 
+    ou menos (para ficar lado a lado) */
+    flex: 1 1 45%; /* Flex-grow: 1, flex-shrink: 1, base-size: 45% (duas por linha com folga) */
+    min-width: 150px; /* Garante que não fiquem muito pequenas */
+    text-align: center;
+}
+
+/* Força quebra de linha se a tela for muito pequena */
+@media (max-width: 550px) {
+    .imagens-questao-container .imagem-questao {
+        flex: 1 1 100%; /* Uma imagem por linha em telas muito pequenas */
+    }
+}
+
+
+
 
 /* Responsividade básica */
 @media (max-width: 768px) {
@@ -601,7 +644,7 @@ footer {
         padding: 20px;
     }
     .questao, .secao-estrategia {
-        padding: 20px;
+        padding: 15px;
     }
     .filtros-container {
         flex-direction: column;
@@ -610,5 +653,20 @@ footer {
     .filtros-container select {
         width: 100%;
         min-width: unset;
+    }
+.questao h4 {
+        font-size: 1em; /* Diminui o título da questão */
+    }
+
+    .questao .pergunta, .alternativa {
+        font-size: 1em; /* Garante que o texto principal não seja muito grande */
+    }
+
+    /* Ajuste a posição do tag de dificuldade */
+    .dificuldade {
+        top: 10px;
+        right: 10px;
+        padding: 3px 8px;
+        font-size: 0.75em;
     }
 }
