@@ -50,6 +50,7 @@ const QUESTOES_2023 = [
         materia: "Português",
         dificuldade: "medio",
         figuraDescricao: "Charge sobre morte da rainha Elizabeth II mostrando coroas e um chapéu.",
+        imagem: "fig1.jpg",
         texto: "Uma característica fundamental das charges é a produção do humor por meio da quebra da expectativa produzida pelo texto.",
         pergunta: "Na charge de Jean Galvão, esse processo ocorre porque o",
         alternativas: [
@@ -64,6 +65,7 @@ const QUESTOES_2023 = [
         materia: "Português",
         dificuldade: "medio",
         titulo: "Soletrando",
+        imagem: "fig2.jpg",
         texto: "Texto I\n(Imagem do logo do Soletrando)\nTexto II\nO Soletrando foi ao ar pela primeira vez em 2007 e participou ativamente da história do Caldeirão com Huck até 2012. Em 2015, a Globo apostou em uma edição especial. No programa, um estudante de cada estado do país competia para ver quem tinha mais conhecimento de soletração da língua portuguesa. As seletivas aconteciam em escolas públicas de cada região. O prêmio para o vencedor era de R$ 100 mil.\n(RD1. Globo autoriza e Luciano Huck prepara a volta do Soletrando. Adaptado.)\n\nSoletrar é o ato de pronunciar, separada e sucessivamente, as letras que formam uma palavra.",
         pergunta: "Se você estivesse participando do concurso da TV Globo e tivesse de soletrar certa palavra da língua, como seria a sua forma correta?",
         alternativas: [
@@ -134,7 +136,7 @@ const QUESTOES_2023 = [
         materia: "Português",
         dificuldade: "medio",
         titulo: "Filme Best Player estreia na TV",
-        texto: "No filme \"Best Player\", que estreia nesta quinta‑feira (18) no canal pago Nickelodeon, o personagem Quincy vê em um campeonato de game a chance de ter sua casa própria. É a solução quando seus pais, com quem ele mora, resolvem se mudar de cidade. Mas Quincy não é o único **fera** em videogame. E terá que encarar uma jogadora, apelidada de Prodigy, que não está disposta a deixá‑lo realizar seu sonho. Quem será o vencedor dessa disputa? O filme mistura realidade e jogos virtuais. Nos papéis principais estão Jerry Trainor e Jennette Mc Curdy, o Spencer e a Sam da série iCarly.\n(FOLHINHA. Filme \"Best Player\" estreia na TV. Adaptado.)",
+        texto: "No filme \"Best Player\", que estreia nesta quinta‑feira (18) no canal pago Nickelodeon, o personagem Quincy vê em um campeonato de game a chance de ter sua casa própria. É a solução quando seus pais, com quem mora, resolvem se mudar de cidade. Mas Quincy não é o único **fera** em videogame. E terá que encarar uma jogadora, apelidada de Prodigy, que não está disposta a deixá‑lo realizar seu sonho. Quem será o vencedor dessa disputa? O filme mistura realidade e jogos virtuais. Nos papéis principais estão Jerry Trainor e Jennette Mc Curdy, o Spencer e a Sam da série iCarly.\n(FOLHINHA. Filme \"Best Player\" estreia na TV. Adaptado.)",
         pergunta: "O autor, ao utilizar a palavra \"fera\", recorre à figura de linguagem",
         alternativas: [
             "eufemismo, a fim de suavizar a ideia de que Quincy é pessoa difícil de se lidar.",
@@ -191,6 +193,7 @@ const QUESTOES_2023 = [
         materia: "Matemática",
         dificuldade: "medio",
         titulo: "Altura de um prédio",
+        imagem: "fig3.jpg",
         texto: "Um observador vê um prédio segundo um ângulo 30°. Após caminhar 20 m em direção ao prédio, ele passa a vê‑lo segundo um ângulo 45°.",
         pergunta: "Desprezando a altura do observador e admitindo √3 = 1,7, podemos afirmar que a altura h do prédio é APROXIMADAMENTE",
         alternativas: [
@@ -261,6 +264,7 @@ const QUESTOES_2023 = [
         materia: "Matemática",
         dificuldade: "medio",
         titulo: "Gráfico OBMEP",
+        imagem: "fig4.jpg",
         texto: "Em uma pesquisa realizada por estudantes da UFV, as questões da primeira fase da 17ª OBMEP - Olimpíada Brasileira de Matemática para a Escola Pública - foram classificadas em categorias quanto ao grau de dificuldade, como mostra a tabela a seguir:\nMuito Fácil: 1\nFácil: 2\nMediano: 4\nDifícil: 8\nMuito Difícil: 5\nTOTAL: 20\n\nSe essa classificação fosse apresentada em um gráfico de setores circulares, a cada categoria corresponderia um setor circular.",
         pergunta: "O ângulo do maior desses setores mediria",
         alternativas: [
@@ -361,6 +365,7 @@ const QUESTOES_2023 = [
         materia: "Ciências",
         dificuldade: "medio",
         titulo: "Átomos e Materiais",
+        imagem: "fig5.jpg",
         texto: "Átomos se aglomeram. O que aconteceria se não o fizessem? [...] Sem as ligações e as forças que mantêm juntos os materiais, nada existiria do modo como conhecemos. As diferentes formas de combinação entre os átomos geram uma grande variedade de materiais com diferentes propriedades, usos e aplicações.\n(HAYLEY, B. 50 ideias de química que você precisa conhecer. Adaptado.)\nMateriais exemplificados: Metal (latas), Sal, Açúcar.",
         pergunta: "Tendo como base os materiais exemplificados abaixo, podemos inferir que o tipo de ligação química está corretamente relacionado com a seguinte propriedade:",
         alternativas: [
@@ -375,6 +380,7 @@ const QUESTOES_2023 = [
         materia: "Ciências",
         dificuldade: "medio",
         titulo: "Abelha Africanizada",
+        imagem: "fig6.jpg",
         texto: "A abelha africanizada (Apis mellifera) [...] O veneno injetado pelo ferrão tem caráter ácido e é uma mistura de várias substâncias diferentes que provocam reações que variam de intensidade de acordo com a sensibilidade de cada pessoa. A sabedoria popular diz que, ao ser ferroado por uma abelha, devemos passar sobre a região uma substância para que os efeitos sejam amenizados ou neutralizados.",
         pergunta: "Com base nas informações do texto, para reduzir os efeitos do veneno da abelha e, consequentemente, diminuir a dor, deve-se aplicar sobre a picada uma substância",
         alternativas: [
@@ -548,6 +554,7 @@ const QUESTOES_2023 = [
         dificuldade: "medio",
         titulo: "Debret e Gê Viana",
         figuraDescricao: "Imagem 01: Aquarela de Jean-Baptiste Debret 'O jantar'. Imagem 02: Gê Viana 'Sentem para jantar' (Série Atualização traumática de Debret).",
+        imagem: "fig7.jpg",
         texto: "As duas imagens fazem referência às estruturas sociais, culturais e políticas brasileiras.",
         pergunta: "Ao estabelecermos uma comparação entre elas, é possível concluir que",
         alternativas: [
@@ -572,3 +579,10 @@ const QUESTOES_2023 = [
         ]
     }
 ];
+
+// ---------------------------------------------------------------
+// EXPORTAÇÃO (necessária caso o arquivo seja usado como módulo)
+// ---------------------------------------------------------------
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = QUESTOES_2023;
+}

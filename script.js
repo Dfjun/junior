@@ -150,7 +150,10 @@ function criarQuestaoHTML(questao, ano) {
             </div>
             ${questao.texto ? `<p class="texto-base">${questao.texto}</p>` : ''}
             ${questao.figuraDescricao ? `<div class="figura-descricao">${questao.figuraDescricao}</div>` : ''}
-            <p class="pergunta">${questao.pergunta}</p>
+           
+	    ${questao.imagem ? `<div class="imagem-questao"><img src="imagens/${questao.imagem}" alt="Figura da questão ${questao.numero}"></div>` : ''}
+	    
+	    <p class="pergunta">${questao.pergunta}</p>
             <div class="alternativas-container">
     `;
 
