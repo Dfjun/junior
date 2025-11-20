@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preparatório CEDAF 2026</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Preparatório CEDAF 2026</h1>
+            <nav>
+                <!-- CORRIGIDO: Adicionado 'event,' antes do nome da página em TODOS os onclick -->
+                <button class="nav-btn active" onclick="mostrarPagina(event, 'home')">Home</button>
+                <button class="nav-btn" onclick="mostrarPagina(event, 'prova2023')">Prova 2023</button>
+                <button class="nav-btn" onclick="mostrarPagina(event, 'prova2024')">Prova 2024</button>
+                <button class="nav-btn" onclick="mostrarPagina(event, 'prova2025')">Prova 2025</button>
+                <button class="nav-btn" onclick="mostrarPagina(event, 'desafio')">Questões Desafio</button>
+                <button class="nav-btn" onclick="mostrarPagina(event, 'estrategia')">Estratégia de Estudos</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div id="app">
+                <!-- Conteúdo será carregado aqui pelo JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Preparatório CEDAF. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="questoes2023.js"></script>
+    <script src="questoes2024.js"></script>
+    <script src="questoes2025.js"></script>
+    <script src="questoesDesafio.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
