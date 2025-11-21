@@ -377,7 +377,6 @@ Adotando as nomenclaturas A para o conjunto dos torcedores do Atlético, C para 
         numero: 20,
         dificuldade: 'medio',
         materia: 'Matemática',
-        figuraDescricao: 'Desenho em escala 1:50 de um palquinho com parte retangular e um semicírculo. O raio do semicírculo é de 1,4m.',
         imagem: 'fig88.jpg',
         texto: 'O professor de Português da CEDAF gosta de tocar violão no intervalo entre as aulas. Inspirados por sua dedicação, os alunos decidiram criar um projeto para construir um "palquinho" onde o professor possa realizar suas apresentações musicais. O projeto consistirá em uma estrutura composta por uma parte retangular e um semicírculo, conforme figura a seguir. Dado que a figura está na escala de 1:50, e considerando π = 3,14,',
         pergunta: 'a área total que o “palquinho” ocupará na realidade será de:',
